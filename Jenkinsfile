@@ -25,8 +25,10 @@ pipeline{
                 withCredentials([usernamePassword( credentialsId: 'docker-hub-credentials', usernameVariable: 'USER', passwordVariable: 'PASSWORD')]) {
                         def registry_url = "registry.hub.docker.com/"
                         sh "docker login -u $USER -p $PASSWORD ${registry_url}"
-                        docker.withRegistry("http://${registry_url}", "docker-hub-credentials") {
-                            sh "docker push ${DOCKER_IMAGE}"
+                        script {
+                             docker.withRegistry("${REGISTRY_URL}", "${DOCKERHUB_CREDENTIALS_ID}") {
+                                                    sh "docker push ${DOCKER_IMAGE}"
+                             }
                         }
                     }
             }
