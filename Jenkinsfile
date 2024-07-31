@@ -16,7 +16,7 @@ pipeline{
         stage('Dockerize'){
             steps{
                 echo "Dockerizing..."
-                sh 'docker build -t ${DOCKER_IMAGE}'
+                sh 'docker build -t ${DOCKER_IMAGE} .'
             }
         }
         stage('Push Docker Image'){
