@@ -3,6 +3,8 @@ pipeline{
 
     environment{
         DOCKER_IMAGE = "ramazanakdag/demo"
+        DOCKERHUB_CREDENTIALS_ID = 'docker-hub-credentials'
+        REGISTRY_URL = 'https://index.docker.io/v1/'
     }
 
     stages{
@@ -19,20 +21,19 @@ pipeline{
                 sh 'docker build -t ${DOCKER_IMAGE} .'
             }
         }
-        stage('Push Docker Image'){
-            steps{
-                echo "Pushing image..."
-                withCredentials([usernamePassword( credentialsId: 'docker-hub-credentials', usernameVariable: 'USER', passwordVariable: 'PASSWORD')]) {
-                        def registry_url = "registry.hub.docker.com/"
-                        sh "docker login -u $USER -p $PASSWORD ${registry_url}"
-                        script {
-                             docker.withRegistry("${REGISTRY_URL}", "${DOCKERHUB_CREDENTIALS_ID}") {
-                                                    sh "docker push ${DOCKER_IMAGE}"
-                             }
+        stage('Push Docker Image') {
+                    steps {
+                        echo "Pushing image..."
+                        withCredentials([usernamePassword(credentialsId: "${DOCKERHUB_CREDENTIALS_ID}", usernameVariable: 'USER', passwordVariable: 'PASSWORD')]) {
+                            sh 'docker login -u $USER -p $PASSWORD ${REGISTRY_URL}'
+                            script {
+                                docker.withRegistry("${REGISTRY_URL}", "${DOCKERHUB_CREDENTIALS_ID}") {
+                                    sh "docker push ${DOCKER_IMAGE}"
+                                }
+                            }
                         }
                     }
-            }
-        }
+                }
         stage('Deploy'){
             steps{
                  echo "Deploying..."
