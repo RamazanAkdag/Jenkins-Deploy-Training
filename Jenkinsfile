@@ -7,24 +7,30 @@ pipeline{
 
     stages{
         stage('Build'){
-            echo "Building..."
             steps{
+                echo "Building..."
                 sh './mvnw clean package'
             }
         }
         stage('Dockerize'){
-            echo "Dockerizing..."
             steps{
+                echo "Dockerizing..."
                 sh 'docker build -t ${DOCKER_IMAGE}'
             }
         }
         stage('Push Docker Image'){
-             echo "Pushing image..."
-             sh 'docker push ${DOCKER_IMAGE}'
+            steps{
+                echo "Pushing image..."
+                sh 'docker push ${DOCKER_IMAGE}'
+            }
+
         }
         stage('Deploy'){
-            echo "Deploying..."
-              sh 'docker run -d -p 8080:8080 ${DOCKER_IMAGE}'
+            steps{
+                 echo "Deploying..."
+                 sh 'docker run -d -p 8080:8080 ${DOCKER_IMAGE}'
+            }
+
         }
 
     }
