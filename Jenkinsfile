@@ -26,11 +26,7 @@ pipeline{
                         echo "Pushing image..."
                         withCredentials([usernamePassword(credentialsId: "${DOCKERHUB_CREDENTIALS_ID}", usernameVariable: 'USER', passwordVariable: 'PASSWORD')]) {
                             sh 'docker login -u $USER -p $PASSWORD ${REGISTRY_URL}'
-                            script {
-                                docker.withRegistry("${REGISTRY_URL}", "${DOCKERHUB_CREDENTIALS_ID}") {
-                                    sh "docker push ${DOCKER_IMAGE}"
-                                }
-                            }
+                            sh "docker push ${DOCKER_IMAGE}"
                         }
                     }
                 }
