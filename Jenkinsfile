@@ -9,6 +9,7 @@ pipeline{
         stage('Build'){
             steps{
                 echo "Building..."
+                sh 'chmod +x ./mvnw'
                 sh './mvnw clean package'
             }
         }
