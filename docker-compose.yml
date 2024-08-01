@@ -37,7 +37,7 @@ services:
     depends_on:
       - zabbix-server
     ports:
-      - "8080:8080"
+      - "8082:8080"
 
   myapp:
     image: ramazanakdag/demo
