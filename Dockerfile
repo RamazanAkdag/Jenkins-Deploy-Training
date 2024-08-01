@@ -18,4 +18,5 @@ EXPOSE 8081
 EXPOSE 161
 
 # Start SNMP and your application
-ENTRYPOINT ["/bin/bash", "-c", "service snmpd start && java -jar /app.jar"]
+CMD service snmpd start && java -jar /app.jar
+
