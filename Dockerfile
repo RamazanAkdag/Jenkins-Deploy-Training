@@ -1,8 +1,12 @@
 FROM openjdk:17-jdk-slim
 
-# Install SNMP
+# Install Zabbix agent
 RUN apt-get update && \
-    apt-get install -y snmp snmpd && \
+    apt-get install -y wget && \
+    wget https://repo.zabbix.com/zabbix/6.0/debian/pool/main/z/zabbix-release/zabbix-release_6.0-1+debian11_all.deb && \
+    dpkg -i zabbix-release_6.0-1+debian11_all.deb && \
+    apt-get update && \
+    apt-get install -y zabbix-agent && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -10,13 +14,13 @@ RUN apt-get update && \
 ARG JAR_FILE=target/demo-0.0.1-SNAPSHOT.jar
 ADD ${JAR_FILE} app.jar
 
-# Copy SNMP configuration file
-COPY snmpd.conf /etc/snmp/snmpd.conf
+# Copy Zabbix agent configuration file
+COPY zabbix_agentd.conf /etc/zabbix/zabbix_agentd.conf
 
 # Expose the necessary ports
 EXPOSE 8081
-EXPOSE 161
+EXPOSE 10050
 
-# Start SNMP and your application
-CMD service snmpd start && java -jar /app.jar
+# Start Zabbix agent and your application
+CMD service zabbix-agent start && java -jar /app.jar
 
