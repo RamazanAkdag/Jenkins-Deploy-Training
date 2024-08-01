@@ -33,7 +33,7 @@ pipeline{
         stage('Deploy'){
             steps{
                  echo "Deploying..."
-                 sh 'docker run -d -p 8081:8081 ${DOCKER_IMAGE}'
+                 sh 'docker-compose up -d'
             }
 
         }
