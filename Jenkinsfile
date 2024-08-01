@@ -33,7 +33,7 @@ pipeline{
         stage('Deploy'){
             steps{
                  echo "Deploying..."
-                 sh 'docker run ${DOCKER_IMAGE} -d'
+                 sh 'docker run -d ${DOCKER_IMAGE}'
             }
 
         }
