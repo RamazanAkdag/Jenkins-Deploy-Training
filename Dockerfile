@@ -11,6 +11,5 @@ ADD ${JAR_FILE} app.jar
 EXPOSE 8081
 
 
-# Start Zabbix agent and your application
 CMD java -jar /app.jar
 
