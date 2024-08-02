@@ -33,7 +33,7 @@ pipeline{
         stage('Deploy'){
             steps{
                  echo "Deploying..."
-                 sh 'docker run --network zabbixtrain_zabbix-net -d ${DOCKER_IMAGE}'
+                 sh 'docker run --network zabbixtrain_zabbix-net -p 8081:8081 -d ${DOCKER_IMAGE}'
             }
 
         }
