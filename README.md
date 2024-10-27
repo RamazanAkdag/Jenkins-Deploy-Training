@@ -1,1 +1,1 @@
-selamun aleyküm 
+selamun aleyküm aleykümselam
